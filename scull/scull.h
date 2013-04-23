@@ -42,7 +42,7 @@ struct scull_qest {
 
 struct scull_dev {
 	struct scull_qset *data;
-	int quatum;
+	int quantum;
 	int qset;
 	unsigned long size;
 	unsigned int access_key;
