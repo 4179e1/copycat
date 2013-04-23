@@ -2,6 +2,7 @@
 #define _SCULL_H_
 
 #include <linux/cdev.h>
+#include <linux/fs.h>
 
 #undef PDEBUG
 #ifdef SCULL_DEBUG
@@ -45,7 +46,7 @@ struct scull_dev {
 	int qset;
 	unsigned long size;
 	unsigned int access_key;
-	struct semaphore sem;
+	struct semaphore sem;	/* linux/fs.h */
 	struct cdev cdev;
 };
 
