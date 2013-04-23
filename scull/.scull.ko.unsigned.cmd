@@ -1,1 +1,0 @@
-cmd_/root/copycat/scull/scull.ko.unsigned := ld -r -m elf_x86_64 -T /usr/src/kernels/2.6.32-300.10.1.el5uek/scripts/module-common.lds  -o /root/copycat/scull/scull.ko.unsigned /root/copycat/scull/scull.o /root/copycat/scull/scull.mod.o 
