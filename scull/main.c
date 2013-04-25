@@ -36,7 +36,6 @@ static void scull_setup_cdev (struct scull_dev *dev, int index)
 		printk (KERN_NOTICE "Error %d adding scull%d", err, index);
 }
 
-#if 0
 int scull_trim (struct scull_dev *dev)
 {
 	struct scull_qset *next, *dptr;
@@ -62,30 +61,6 @@ int scull_trim (struct scull_dev *dev)
 	return 0;
 	return 0;
 }
-#endif
-int scull_trim(struct scull_dev *dev)
-{
-	struct scull_qset *next, *dptr;
-	int qset = dev->qset;   /* "dev" is not-null */
-	int i;
-
-	for (dptr = dev->data; dptr; dptr = next) { /* all the list items */
-		if (dptr->data) {
-			for (i = 0; i < qset; i++)
-				kfree(dptr->data[i]);
-			kfree(dptr->data);
-			dptr->data = NULL;
-		}
-		next = dptr->next;
-		kfree(dptr);
-	}
-	dev->size = 0;
-	dev->quantum = scull_quantum;
-	dev->qset = scull_qset;
-	dev->data = NULL;
-	return 0;
-}
-
 
 void scull_cleanup_module (void)
 {
