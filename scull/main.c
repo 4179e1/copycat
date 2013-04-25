@@ -7,6 +7,13 @@ int scull_nr_devs = SCULL_NR_DEVS;
 int scull_quantum = SCULL_QUANTUM;
 int scull_qset = SCULL_QSET;
 
+/* /sys/module/<module>/parameters */
+module_param (scull_major, int, S_IRUGO);
+module_param (scull_minor, int, S_IRUGO);
+module_param (scull_nr_devs, int, S_IRUGO);
+module_param (scull_quantum, int, S_IRUGO);
+module_param (scull_qset, int, S_IRUGO);
+
 MODULE_LICENSE ("GPL");
 
 struct scull_dev *scull_devices;
@@ -29,10 +36,56 @@ static void scull_setup_cdev (struct scull_dev *dev, int index)
 		printk (KERN_NOTICE "Error %d adding scull%d", err, index);
 }
 
+#if 0
 int scull_trim (struct scull_dev *dev)
 {
+	struct scull_qset *next, *dptr;
+	int qset = dev->qset;
+	int i;
+
+	for (dptr = dev->data; dptr; dptr = next)
+	{
+		if (dptr->data)
+		{
+			for (i = 0; i < qset; i++)
+				kfree (dptr->data[i]); /* kfree(NULL) is OK */
+			kfree (dptr->data);
+			dptr->data = NULL;
+		}
+		next = dptr->next;
+		kfree (dptr);
+	}
+	dev->size = 0;
+	dev->quantum = scull_quantum;
+	dev->qset = scull_qset;
+	dev->data = NULL;
+	return 0;
 	return 0;
 }
+#endif
+int scull_trim(struct scull_dev *dev)
+{
+	struct scull_qset *next, *dptr;
+	int qset = dev->qset;   /* "dev" is not-null */
+	int i;
+
+	for (dptr = dev->data; dptr; dptr = next) { /* all the list items */
+		if (dptr->data) {
+			for (i = 0; i < qset; i++)
+				kfree(dptr->data[i]);
+			kfree(dptr->data);
+			dptr->data = NULL;
+		}
+		next = dptr->next;
+		kfree(dptr);
+	}
+	dev->size = 0;
+	dev->quantum = scull_quantum;
+	dev->qset = scull_qset;
+	dev->data = NULL;
+	return 0;
+}
+
 
 void scull_cleanup_module (void)
 {

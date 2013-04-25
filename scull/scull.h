@@ -34,7 +34,7 @@
 #define SCULL_NR_DEVS 4
 #endif
 
-struct scull_qest {
+struct scull_qset {
 	void **data;
 	struct scull_qset *next;
 };
