@@ -20,8 +20,46 @@ struct scull_dev *scull_devices;
 
 struct file_operations scull_fops = 
 {
-	.owner = THIS_MODULE,
+	.owner = 	THIS_MODULE,
+	.llseek = 	scull_llseek,
+	.read =		scull_read,
+	.write = 	scull_write,
+	.unlocked_ioctl = scull_ioctl,
+	.open = 	scull_open,
+	.release =	scull_release,
 };
+
+ssize_t scull_read (struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
+{
+	return 0;
+}
+
+ssize_t scull_write (struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
+{
+	return 0;
+}
+
+loff_t scull_llseek (struct file *filp, loff_t off, int whence)
+{
+	return 0;
+}
+
+long scull_ioctl (struct file *filp, unsigned int cmd, unsigned long arg)
+{
+	return 0;
+}
+
+int scull_open (struct inode *inode, struct file *filp)
+{
+	return 0;
+}
+
+int scull_release (struct inode *inode, struct file *filep)
+{
+	return 0;
+}
+
+
 
 static void scull_setup_cdev (struct scull_dev *dev, int index)
 {
