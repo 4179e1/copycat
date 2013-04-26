@@ -31,7 +31,6 @@ struct file_operations scull_fops =
 
 ssize_t scull_read (struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
 {
-	return 0;
 }
 
 ssize_t scull_write (struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
@@ -51,6 +50,19 @@ long scull_ioctl (struct file *filp, unsigned int cmd, unsigned long arg)
 
 int scull_open (struct inode *inode, struct file *filp)
 {
+	struct scull_dev *dev;
+
+	dev = container_of (inode->i_cdev, struct scull_dev, cdev);
+	filp->private_data = dev;
+
+	if ((filp->f_flags & O_ACCMODE) == O_WRONLY)
+	{
+		if (down_interruptible (&dev->sem) != 0)
+			return -ERESTARTSYS;
+		scull_trim (dev);
+		up (&dev->sem);
+	}
+
 	return 0;
 }
 
