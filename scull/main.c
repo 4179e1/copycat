@@ -352,6 +352,8 @@ int scull_trim (struct scull_dev *dev)
 
 static void *scull_seq_start (struct seq_file *s, loff_t *pos)
 {
+	if (pos)
+		PDEBUG (KERN_ALERT "%s *pos=%lld\n", __func__, *pos);
 	if (*pos >= scull_nr_devs)
 		return NULL;
 	return scull_devices + *pos;
@@ -359,6 +361,8 @@ static void *scull_seq_start (struct seq_file *s, loff_t *pos)
 
 static void *scull_seq_next (struct seq_file *s, void *v, loff_t *pos)
 {
+	if (pos)
+		PDEBUG (KERN_ALERT "%s *pos=%lld\n", __func__, *pos);
 	(*pos)++;
 	if (*pos >= scull_nr_devs)
 		return NULL;
@@ -416,13 +420,15 @@ int scull_read_procmem (char *buf, char **start, off_t offset, int count, int *e
 {
 	int i, j, len = 0;
 	int limit = count - 80;
+	struct scull_dev *d;
+	struct scull_qset *qs;
 
 	for (i = 0; i < scull_nr_devs && len <= limit; i++)
 	{
-		struct scull_dev *d = &scull_devices[i];
-		struct scull_qset *qs = d->data;
+		d = &scull_devices[i];
 		if (down_interruptible (&d->sem))
 			return -ERESTARTSYS;
+		qs = d->data;
 		len += sprintf (buf+len, "\nDevice %i,: qset %i, q %i, sz %li\n", i, d->qset, d->quantum, d->size);
 		for (; qs && len <= limit; qs = qs->next) /* travesal list */
 		{

@@ -9,7 +9,7 @@ endif
 EXTRA_CFLAGS += $(DEBUGFLAGS) -I$(LDDINC) -Wall
 
 ifneq ($(KERNELRELEASE),)
-scull-objs := main.o
+scull-objs := main.o pipe.o
 obj-m := scull.o
 else
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build

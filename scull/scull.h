@@ -34,6 +34,14 @@
 #define SCULL_NR_DEVS 4
 #endif
 
+#ifndef SCULL_P_NR_DEVS
+#define SCULL_P_NR_DEVS 4
+#endif
+
+#ifndef SCULL_P_BUFFER
+#define SCULL_P_BUFFER 4096
+#endif 
+
 struct scull_qset {
 	void **data;
 	struct scull_qset *next;
