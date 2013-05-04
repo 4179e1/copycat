@@ -62,6 +62,7 @@ extern int scull_major;
 extern int scull_nr_devs;
 extern int scull_quantum;
 extern int scull_qset;
+extern int scull_p_buffer;
 
 int scull_trim (struct scull_dev *dev);
 ssize_t scull_read (struct file *filp, char __user *buf, size_t count, loff_t *f_pos);
@@ -70,6 +71,9 @@ loff_t scull_llseek (struct file *filp, loff_t off, int whence);
 long scull_ioctl (struct file *filp, unsigned int cmd, unsigned long arg);
 int scull_open (struct inode *inode, struct file *filp);
 int scull_release (struct inode *inode, struct file *filep);
+
+int scull_p_init (dev_t dev);
+void scull_p_cleanup (void);
 
 #define SCULL_IOC_MAGIC 'k'
 

@@ -272,13 +272,11 @@ long scull_ioctl (struct file *filp, unsigned int cmd, unsigned long arg)
 			return tmp;
 
 		case SCULL_P_IOCTSIZE:
-			/* PH */
+			scull_p_buffer = arg;
 			break;
 
 		case SCULL_P_IOCQSIZE:
-			/* PH */
-			return 0;
-			break;
+			return scull_p_buffer;
 
 		default:
 			return -ENOTTY;
@@ -522,6 +520,10 @@ int scull_init_module (void)
 		sema_init (&scull_devices[i].sem, 1);
 		scull_setup_cdev (&scull_devices[i], i);
 	}
+
+	dev = MKDEV (scull_major, scull_minor + scull_nr_devs);
+	dev += scull_p_init (dev);
+//	dev += scull_access_init (dev);
 
 #ifdef SCULL_DEBUG
 	scull_create_proc ();

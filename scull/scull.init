@@ -4,7 +4,8 @@ DEVICE="scull"
 SECTION="misc"
 
 PREFIX="scull"
-FILES="		0 0		1 1		2 2		3 3"
+FILES="		0 0			1 1			2 2			3 3
+		pipe0 4		pipe1 5 	piep2 6 	pipe3 7"
 
 INSMOD=/sbin/insmod
 CFG=/etc/${DEVICE}.conf
