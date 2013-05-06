@@ -343,7 +343,7 @@ void scull_p_cleanup (void)
 	int i;
 
 #ifdef SCULL_DEBUG
-	remove_proc_entry ("scullpipe", NULL);
+	remove_proc_entry ("scullpseq", NULL);
 #endif 
 
 	if (!scull_p_devices)
