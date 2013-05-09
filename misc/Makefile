@@ -14,6 +14,6 @@ clean:
 .PHONY: modules modules_install clean
 
 else
-	obj-m := jit.o
+	obj-m := jit.o jiq.o
 endif
 
