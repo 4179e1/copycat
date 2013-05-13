@@ -11,7 +11,7 @@ static long delay = 1;
 module_param (delay, long, 0);
 
 #define LIMIT 512
-#define SCUEDULE_QUEUE ((task_queue *) 1)
+// #define SCUEDULE_QUEUE ((task_queue *) 1)
 
 static DECLARE_WAIT_QUEUE_HEAD (jiq_wait);
 
