@@ -20,4 +20,4 @@ modules:
 endif 
 
 clean:
-	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .*.swp *.ko.* modules.order Module.symvers
+	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .*.swp *.ko.* modules.order Module.symvers .tmp_versions
